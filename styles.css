@@ -599,6 +599,14 @@ textarea:focus {
   align-items: start;
 }
 
+.cms-login {
+  max-width: 440px;
+}
+
+.cms-toolbar {
+  margin-bottom: 1rem;
+}
+
 .cms-panel {
   border: 1px solid var(--border);
   border-radius: 8px;

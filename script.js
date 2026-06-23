@@ -1,4 +1,6 @@
 const STORAGE_KEY = "piranhasMerchCms";
+const CMS_AUTH_KEY = "piranhasCmsLoggedIn";
+const CMS_PASSWORD = "EasleyST1!";
 const SHEET_REFRESH_MS = 5 * 60 * 1000;
 
 const defaultStore = {
@@ -124,6 +126,10 @@ const importProducts = document.querySelector("#import-products");
 const resetCms = document.querySelector("#reset-cms");
 const refreshSheet = document.querySelector("#refresh-sheet");
 const productFormTitle = document.querySelector("#product-form-title");
+const cmsLoginForm = document.querySelector("#cms-login-form");
+const cmsPassword = document.querySelector("#cms-password");
+const cmsDashboard = document.querySelector("#cms-dashboard");
+const cmsLogout = document.querySelector("#cms-logout");
 
 let store = loadStore();
 let activeCategory = "All";
@@ -364,6 +370,21 @@ function setStatus(message) {
   cmsStatus.textContent = message;
 }
 
+function isCmsLoggedIn() {
+  return sessionStorage.getItem(CMS_AUTH_KEY) === "true";
+}
+
+function renderCmsAccess() {
+  const loggedIn = isCmsLoggedIn();
+
+  cmsLoginForm.hidden = loggedIn;
+  cmsDashboard.hidden = !loggedIn;
+
+  if (!loggedIn) {
+    setStatus("Enter the CMS password to manage the store.");
+  }
+}
+
 function getCategories() {
   return ["All", ...new Set(getConfiguredProducts().map((product) => product.category))];
 }
@@ -511,6 +532,7 @@ function renderAll() {
   createTabs();
   renderProducts();
   renderCmsProducts();
+  renderCmsAccess();
 }
 
 function readProductForm() {
@@ -681,6 +703,29 @@ resetCms.addEventListener("click", () => {
 
 refreshSheet.addEventListener("click", () => {
   loadSheetProducts({ showStatus: true });
+});
+
+cmsLoginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (cmsPassword.value === CMS_PASSWORD) {
+    sessionStorage.setItem(CMS_AUTH_KEY, "true");
+    cmsPassword.value = "";
+    setStatus("CMS unlocked.");
+    renderCmsAccess();
+    return;
+  }
+
+  cmsPassword.value = "";
+  setStatus("Incorrect password. Try again.");
+  cmsPassword.focus();
+});
+
+cmsLogout.addEventListener("click", () => {
+  sessionStorage.removeItem(CMS_AUTH_KEY);
+  resetProductForm();
+  renderCmsAccess();
+  cmsPassword.focus();
 });
 
 renderAll();
