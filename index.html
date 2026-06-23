@@ -17,6 +17,7 @@
           </span>
         </a>
         <a href="#shop">Shop</a>
+        <a href="#cms">CMS</a>
         <a href="#spirit">Spirit Wear</a>
         <a href="#faq">Info</a>
       </nav>
@@ -106,10 +107,10 @@
             </p>
           </article>
           <article>
-            <h3>Team customization</h3>
+            <h3>Google Sheets products</h3>
             <p>
-              Update the product names, prices, colors, and links in
-              <code>script.js</code>.
+              Publish a sheet with Name, Price, Image, and Link columns, then
+              add the sheet URL in the CMS dashboard.
             </p>
           </article>
           <article>
@@ -121,11 +122,143 @@
           </article>
         </div>
       </section>
+
+      <section class="cms-section" id="cms" aria-labelledby="cms-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Store manager</p>
+            <h2 id="cms-title">CMS Dashboard</h2>
+          </div>
+          <p class="cms-note" id="cms-status" role="status">
+            Add a published Google Sheets URL to power the storefront.
+          </p>
+        </div>
+
+        <div class="cms-layout">
+          <form class="cms-panel" id="settings-form">
+            <h3>Site settings</h3>
+            <label>
+              Team name
+              <input id="setting-team-name" name="teamName" type="text" />
+            </label>
+            <label>
+              Short mark
+              <input id="setting-team-mark" name="teamMark" maxlength="4" type="text" />
+            </label>
+            <label>
+              Contact email
+              <input id="setting-contact-email" name="contactEmail" type="email" />
+            </label>
+            <label>
+              Published Google Sheets URL
+              <input
+                id="setting-sheet-url"
+                name="sheetUrl"
+                type="url"
+                placeholder="https://docs.google.com/spreadsheets/d/e/.../pubhtml"
+              />
+            </label>
+            <button class="primary-action" type="submit">Save settings</button>
+          </form>
+
+          <form class="cms-panel" id="product-form">
+            <div class="cms-panel-heading">
+              <h3 id="product-form-title">Add product</h3>
+              <button class="ghost-button" id="cancel-edit" type="button" hidden>
+                Cancel edit
+              </button>
+            </div>
+            <input id="product-id" name="id" type="hidden" />
+            <div class="form-grid">
+              <label>
+                Product name
+                <input id="cms-name" name="name" required type="text" />
+              </label>
+              <label>
+                Category
+                <input id="cms-category" name="category" required type="text" />
+              </label>
+              <label>
+                Price
+                <input id="cms-price" name="price" required type="text" placeholder="$24" />
+              </label>
+              <label>
+                Shape
+                <select id="cms-shape" name="shape">
+                  <option value="shirt">Shirt</option>
+                  <option value="hoodie">Hoodie</option>
+                  <option value="cap">Cap</option>
+                  <option value="goggles">Goggles</option>
+                  <option value="towel">Towel</option>
+                  <option value="bag">Bag</option>
+                  <option value="bottle">Bottle</option>
+                  <option value="parka">Parka</option>
+                </select>
+              </label>
+              <label>
+                Product color
+                <input id="cms-color" name="color" type="color" value="#087a8f" />
+              </label>
+              <label>
+                Background color
+                <input id="cms-background" name="background" type="color" value="#d9f1ef" />
+              </label>
+            </div>
+            <label>
+              Description
+              <textarea id="cms-description" name="description" required rows="3"></textarea>
+            </label>
+            <label>
+              Purchase link
+              <input id="cms-link" name="link" required type="url" placeholder="https://example.com/product" />
+            </label>
+            <label>
+              Image link
+              <input id="cms-image" name="image" type="url" placeholder="https://example.com/product.jpg" />
+            </label>
+            <button class="primary-action" type="submit">Save product</button>
+          </form>
+        </div>
+
+        <div class="cms-panel cms-products">
+          <div class="cms-panel-heading">
+            <h3>Products</h3>
+            <div class="cms-actions">
+              <button class="ghost-button" id="export-products" type="button">
+                Export JSON
+              </button>
+              <button class="ghost-button" id="refresh-sheet" type="button">
+                Refresh sheet
+              </button>
+              <label class="file-button">
+                Import JSON
+                <input id="import-products" type="file" accept="application/json" />
+              </label>
+              <button class="ghost-button danger-button" id="reset-cms" type="button">
+                Reset catalog
+              </button>
+            </div>
+          </div>
+          <div class="cms-table-wrap">
+            <table class="cms-table">
+              <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="cms-product-list"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer>
-      <p>Piranhas Swim Team YEPP Shop</p>
-      <p>Questions? Contact piranhas-merch@example.com</p>
+      <p id="footer-team-name">Piranhas Swim Team YEPP Shop</p>
+      <p id="footer-contact">Questions? Contact piranhas-merch@example.com</p>
     </footer>
 
     <script src="script.js"></script>
