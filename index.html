@@ -16,23 +16,23 @@
             <small>Team Shop</small>
           </span>
         </a>
-        <a href="#shop">Shop</a>
-        <a href="#cms">CMS</a>
-        <a href="#spirit">Spirit Wear</a>
-        <a href="#faq">Info</a>
+        <a id="nav-shop" href="#shop">Shop</a>
+        <a class="admin-link" href="#cms">admin</a>
+        <a id="nav-spirit" href="#spirit">Spirit Wear</a>
+        <a id="nav-info" href="#faq">Info</a>
       </nav>
     </header>
 
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-content">
-          <p class="eyebrow">Official swim team merchandise</p>
+          <p class="eyebrow" id="hero-eyebrow">Official swim team merchandise</p>
           <h1 id="hero-title">Piranhas Swim Team YEPP Shop</h1>
-          <p>
+          <p id="hero-copy">
             Race-day essentials, deck gear, and supporter apparel for swimmers,
             families, and coaches.
           </p>
-          <a class="primary-action" href="#shop">Browse products</a>
+          <a class="primary-action" id="hero-button" href="#shop">Browse products</a>
         </div>
         <div class="hero-board" aria-label="Featured team merchandise preview">
           <div class="lane"></div>
@@ -51,11 +51,11 @@
       <section class="shop-section" id="shop" aria-labelledby="shop-title">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Shop the collection</p>
+            <p class="eyebrow" id="shop-eyebrow">Shop the collection</p>
             <h2 id="shop-title">Merchandise</h2>
           </div>
           <div class="search-wrap">
-            <label for="product-search">Search products</label>
+            <label id="search-label" for="product-search">Search products</label>
             <input
               id="product-search"
               type="search"
@@ -81,16 +81,16 @@
 
         <div class="product-grid" id="product-grid" aria-live="polite"></div>
         <p class="empty-state" id="empty-state" hidden>
-          No products match that search. Try another category or keyword.
+          <span id="empty-state-text">No products match that search. Try another category or keyword.</span>
         </p>
       </section>
 
       <section class="spirit-band" id="spirit" aria-labelledby="spirit-title">
         <div>
-          <p class="eyebrow">Built for meet days</p>
+          <p class="eyebrow" id="spirit-eyebrow">Built for meet days</p>
           <h2 id="spirit-title">Make the team easy to spot on deck.</h2>
         </div>
-        <p>
+        <p id="spirit-copy">
           Use this starter shop as your public merchandise hub. Swap the sample
           purchase links for your vendor, booster store, or custom order forms.
         </p>
@@ -100,22 +100,22 @@
         <h2 id="info-title">Ordering Info</h2>
         <div class="info-grid">
           <article>
-            <h3>External checkout</h3>
-            <p>
+            <h3 id="info-card-one-title">External checkout</h3>
+            <p id="info-card-one-copy">
               Each product card opens a purchase page in a new tab, so families
               can buy through your preferred vendor.
             </p>
           </article>
           <article>
-            <h3>Google Sheets products</h3>
-            <p>
+            <h3 id="info-card-two-title">Google Sheets products</h3>
+            <p id="info-card-two-copy">
               Publish a sheet with Name, Price, Image, and Link columns, then
               add the sheet URL in the CMS dashboard.
             </p>
           </article>
           <article>
-            <h3>Category browsing</h3>
-            <p>
+            <h3 id="info-card-three-title">Category browsing</h3>
+            <p id="info-card-three-copy">
               Tabs help shoppers jump between apparel, swim gear, accessories,
               and fan favorites.
             </p>
@@ -127,7 +127,7 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">Store manager</p>
-            <h2 id="cms-title">CMS Dashboard</h2>
+            <h2 id="cms-title">Admin</h2>
           </div>
           <p class="cms-note" id="cms-status" role="status">
             Add a published Google Sheets URL to power the storefront.
@@ -135,7 +135,7 @@
         </div>
 
         <form class="cms-panel cms-login" id="cms-login-form">
-          <h3>CMS Login</h3>
+          <h3>Admin Login</h3>
           <label>
             Password
             <input id="cms-password" name="password" type="password" autocomplete="current-password" />
@@ -145,7 +145,7 @@
 
         <div id="cms-dashboard" hidden>
           <div class="cms-panel-heading cms-toolbar">
-            <p class="cms-note">You are logged in to the CMS.</p>
+            <p class="cms-note">You are logged in.</p>
             <button class="ghost-button" id="cms-logout" type="button">Log out</button>
           </div>
 
@@ -161,6 +161,15 @@
                 <input id="setting-team-mark" name="teamMark" maxlength="4" type="text" />
               </label>
               <label>
+                Short mark image URL
+                <input
+                  id="setting-team-mark-image"
+                  name="teamMarkImage"
+                  type="url"
+                  placeholder="https://example.com/logo.png"
+                />
+              </label>
+              <label>
                 Contact email
                 <input id="setting-contact-email" name="contactEmail" type="email" />
               </label>
@@ -174,6 +183,119 @@
                 />
               </label>
               <button class="primary-action" type="submit">Save settings</button>
+            </form>
+
+            <form class="cms-panel" id="content-form">
+              <h3>Page text and images</h3>
+              <div class="form-grid">
+                <label>
+                  Browser title suffix
+                  <input id="content-title-suffix" name="titleSuffix" type="text" />
+                </label>
+                <label>
+                  Brand subtitle
+                  <input id="content-brand-subtitle" name="brandSubtitle" type="text" />
+                </label>
+                <label>
+                  Shop nav label
+                  <input id="content-nav-shop" name="navShop" type="text" />
+                </label>
+                <label>
+                  Spirit nav label
+                  <input id="content-nav-spirit" name="navSpirit" type="text" />
+                </label>
+                <label>
+                  Info nav label
+                  <input id="content-nav-info" name="navInfo" type="text" />
+                </label>
+                <label>
+                  Hero eyebrow
+                  <input id="content-hero-eyebrow" name="heroEyebrow" type="text" />
+                </label>
+                <label>
+                  Hero button
+                  <input id="content-hero-button" name="heroButton" type="text" />
+                </label>
+                <label>
+                  Hero image URL
+                  <input id="content-hero-image" name="heroImage" type="url" placeholder="https://example.com/photo.jpg" />
+                </label>
+                <label>
+                  Shop eyebrow
+                  <input id="content-shop-eyebrow" name="shopEyebrow" type="text" />
+                </label>
+                <label>
+                  Shop title
+                  <input id="content-shop-title" name="shopTitle" type="text" />
+                </label>
+                <label>
+                  Search label
+                  <input id="content-search-label" name="searchLabel" type="text" />
+                </label>
+                <label>
+                  Search placeholder
+                  <input id="content-search-placeholder" name="searchPlaceholder" type="text" />
+                </label>
+                <label>
+                  Clear button
+                  <input id="content-clear-search" name="clearSearch" type="text" />
+                </label>
+                <label>
+                  Empty search message
+                  <input id="content-empty-state" name="emptyState" type="text" />
+                </label>
+                <label>
+                  Info title
+                  <input id="content-info-title" name="infoTitle" type="text" />
+                </label>
+              </div>
+              <label>
+                Hero copy
+                <textarea id="content-hero-copy" name="heroCopy" rows="3"></textarea>
+              </label>
+              <label>
+                Spirit eyebrow
+                <input id="content-spirit-eyebrow" name="spiritEyebrow" type="text" />
+              </label>
+              <label>
+                Spirit title
+                <textarea id="content-spirit-title" name="spiritTitle" rows="2"></textarea>
+              </label>
+              <label>
+                Spirit copy
+                <textarea id="content-spirit-copy" name="spiritCopy" rows="3"></textarea>
+              </label>
+              <div class="form-grid">
+                <label>
+                  Info card 1 title
+                  <input id="content-info-one-title" name="infoOneTitle" type="text" />
+                </label>
+                <label>
+                  Info card 2 title
+                  <input id="content-info-two-title" name="infoTwoTitle" type="text" />
+                </label>
+                <label>
+                  Info card 3 title
+                  <input id="content-info-three-title" name="infoThreeTitle" type="text" />
+                </label>
+                <label>
+                  Footer question text
+                  <input id="content-footer-question" name="footerQuestion" type="text" />
+                </label>
+              </div>
+              <label>
+                Info card 1 copy
+                <textarea id="content-info-one-copy" name="infoOneCopy" rows="2"></textarea>
+              </label>
+              <label>
+                Info card 2 copy
+                <textarea id="content-info-two-copy" name="infoTwoCopy" rows="2"></textarea>
+              </label>
+              <label>
+                Info card 3 copy
+                <textarea id="content-info-three-copy" name="infoThreeCopy" rows="2"></textarea>
+              </label>
+              <button class="primary-action" type="submit">Save page content</button>
             </form>
 
             <form class="cms-panel" id="product-form">

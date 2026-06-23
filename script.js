@@ -7,8 +7,37 @@ const defaultStore = {
   settings: {
     teamName: "Piranhas Swim Team YEPP",
     teamMark: "PY",
+    teamMarkImage: "",
     contactEmail: "piranhas-merch@example.com",
     sheetUrl: "https://docs.google.com/spreadsheets/d/15Gdz4gREonbFo7hrEii8Y_-pmWF4dpYsuifKxmtA-z8/edit?usp=sharing"
+  },
+  content: {
+    titleSuffix: "Shop",
+    brandSubtitle: "Team Shop",
+    navShop: "Shop",
+    navSpirit: "Spirit Wear",
+    navInfo: "Info",
+    heroEyebrow: "Official swim team merchandise",
+    heroCopy: "Race-day essentials, deck gear, and supporter apparel for swimmers, families, and coaches.",
+    heroButton: "Browse products",
+    heroImage: "",
+    shopEyebrow: "Shop the collection",
+    shopTitle: "Merchandise",
+    searchLabel: "Search products",
+    searchPlaceholder: "Search hoodies, caps, towels...",
+    clearSearch: "Clear search",
+    emptyState: "No products match that search. Try another category or keyword.",
+    spiritEyebrow: "Built for meet days",
+    spiritTitle: "Make the team easy to spot on deck.",
+    spiritCopy: "Use this starter shop as your public merchandise hub. Swap the sample purchase links for your vendor, booster store, or custom order forms.",
+    infoTitle: "Ordering Info",
+    infoOneTitle: "External checkout",
+    infoOneCopy: "Each product card opens a purchase page in a new tab, so families can buy through your preferred vendor.",
+    infoTwoTitle: "Google Sheets products",
+    infoTwoCopy: "Publish a sheet with Name, Price, Image, and Link columns, then add the sheet URL in the admin dashboard.",
+    infoThreeTitle: "Category browsing",
+    infoThreeCopy: "Tabs help shoppers jump between apparel, swim gear, accessories, and fan favorites.",
+    footerQuestion: "Questions? Contact"
   },
   products: [
     {
@@ -118,6 +147,7 @@ const emptyState = document.querySelector("#empty-state");
 const clearSearch = document.querySelector("#clear-search");
 const cmsStatus = document.querySelector("#cms-status");
 const settingsForm = document.querySelector("#settings-form");
+const contentForm = document.querySelector("#content-form");
 const productForm = document.querySelector("#product-form");
 const productList = document.querySelector("#cms-product-list");
 const cancelEdit = document.querySelector("#cancel-edit");
@@ -160,6 +190,16 @@ function slugify(value) {
 
 function getConfiguredProducts() {
   return sheetProducts.length ? sheetProducts : store.products;
+}
+
+function renderMarkContent(className = "mark-image") {
+  const { teamMark, teamMarkImage } = store.settings;
+
+  if (teamMarkImage) {
+    return `<img class="${className}" src="${escapeHtml(teamMarkImage)}" alt="${escapeHtml(teamMark || "Team mark")}" />`;
+  }
+
+  return escapeHtml(teamMark);
 }
 
 function getSheetCsvUrl(sheetUrl) {
@@ -334,6 +374,10 @@ function normalizeStore(nextStore) {
     ...defaultStore.settings,
     ...(nextStore.settings || {})
   };
+  const content = {
+    ...defaultStore.content,
+    ...(nextStore.content || nextStore.settings?.content || {})
+  };
 
   if (!settings.sheetUrl) {
     settings.sheetUrl = defaultStore.settings.sheetUrl;
@@ -343,7 +387,7 @@ function normalizeStore(nextStore) {
     ? nextStore.products.map(normalizeProduct)
     : clone(defaultStore.products);
 
-  return { settings, products };
+  return { settings, content, products };
 }
 
 function normalizeProduct(product) {
@@ -390,22 +434,68 @@ function getCategories() {
 }
 
 function renderSettings() {
-  const { teamName, teamMark, contactEmail, sheetUrl } = store.settings;
-  document.title = `${teamName} Shop`;
+  const { teamName, teamMark, teamMarkImage, contactEmail, sheetUrl } = store.settings;
   document.querySelector(".brand").setAttribute("aria-label", `${teamName} home`);
-  document.querySelector(".brand-mark").textContent = teamMark;
+  document.querySelector(".brand-mark").innerHTML = renderMarkContent();
   document.querySelector(".brand strong").textContent = teamName;
-  document.querySelector("#hero-title").textContent = `${teamName} Shop`;
   document.querySelector(".mockup-shirt span").textContent =
     teamName.split(" ")[0]?.toUpperCase() || "TEAM";
-  document.querySelector(".mockup-cap span").textContent = teamMark;
-  document.querySelector("#footer-team-name").textContent = `${teamName} Shop`;
-  document.querySelector("#footer-contact").textContent =
-    `Questions? Contact ${contactEmail}`;
+  document.querySelector(".mockup-cap span").innerHTML = renderMarkContent("mockup-mark-image");
   document.querySelector("#setting-team-name").value = teamName;
   document.querySelector("#setting-team-mark").value = teamMark;
+  document.querySelector("#setting-team-mark-image").value = teamMarkImage;
   document.querySelector("#setting-contact-email").value = contactEmail;
   document.querySelector("#setting-sheet-url").value = sheetUrl;
+}
+
+function setFormValue(name, value) {
+  contentForm.elements[name].value = value;
+}
+
+function renderContent() {
+  const content = store.content;
+  const { teamName, contactEmail } = store.settings;
+  const heroBoard = document.querySelector(".hero-board");
+
+  document.title = `${teamName} ${content.titleSuffix}`.trim();
+  document.querySelector(".brand small").textContent = content.brandSubtitle;
+  document.querySelector("#nav-shop").textContent = content.navShop;
+  document.querySelector("#nav-spirit").textContent = content.navSpirit;
+  document.querySelector("#nav-info").textContent = content.navInfo;
+  document.querySelector("#hero-eyebrow").textContent = content.heroEyebrow;
+  document.querySelector("#hero-title").textContent =
+    `${teamName} ${content.titleSuffix}`.trim();
+  document.querySelector("#hero-copy").textContent = content.heroCopy;
+  document.querySelector("#hero-button").textContent = content.heroButton;
+  document.querySelector("#shop-eyebrow").textContent = content.shopEyebrow;
+  document.querySelector("#shop-title").textContent = content.shopTitle;
+  document.querySelector("#search-label").textContent = content.searchLabel;
+  searchInput.placeholder = content.searchPlaceholder;
+  clearSearch.textContent = content.clearSearch;
+  document.querySelector("#empty-state-text").textContent = content.emptyState;
+  document.querySelector("#spirit-eyebrow").textContent = content.spiritEyebrow;
+  document.querySelector("#spirit-title").textContent = content.spiritTitle;
+  document.querySelector("#spirit-copy").textContent = content.spiritCopy;
+  document.querySelector("#info-title").textContent = content.infoTitle;
+  document.querySelector("#info-card-one-title").textContent = content.infoOneTitle;
+  document.querySelector("#info-card-one-copy").textContent = content.infoOneCopy;
+  document.querySelector("#info-card-two-title").textContent = content.infoTwoTitle;
+  document.querySelector("#info-card-two-copy").textContent = content.infoTwoCopy;
+  document.querySelector("#info-card-three-title").textContent = content.infoThreeTitle;
+  document.querySelector("#info-card-three-copy").textContent = content.infoThreeCopy;
+  document.querySelector("#footer-team-name").textContent =
+    `${teamName} ${content.titleSuffix}`.trim();
+  document.querySelector("#footer-contact").textContent =
+    `${content.footerQuestion} ${contactEmail}`;
+
+  heroBoard.classList.toggle("has-custom-image", Boolean(content.heroImage));
+  heroBoard.style.setProperty("--hero-image", content.heroImage ? `url("${content.heroImage}")` : "none");
+
+  Object.entries(content).forEach(([key, value]) => {
+    if (contentForm.elements[key]) {
+      setFormValue(key, value);
+    }
+  });
 }
 
 function createTabs() {
@@ -443,11 +533,11 @@ function getVisibleProducts() {
 
 function getProductLabel(product) {
   if (product.shape === "shirt") {
-    return store.settings.teamName.split(" ")[0]?.toUpperCase() || "TEAM";
+    return escapeHtml(store.settings.teamName.split(" ")[0]?.toUpperCase() || "TEAM");
   }
 
   if (["hoodie", "cap"].includes(product.shape)) {
-    return store.settings.teamMark;
+    return renderMarkContent("product-mark-image");
   }
 
   return "";
@@ -465,7 +555,7 @@ function renderProducts() {
               product.image
                 ? `<img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" loading="lazy" />`
                 : `<div class="product-icon shape-${escapeHtml(product.shape)}" aria-hidden="true">
-                    ${escapeHtml(getProductLabel(product))}
+                    ${getProductLabel(product)}
                   </div>`
             }
             </div>
@@ -529,6 +619,7 @@ function renderAll() {
   }
 
   renderSettings();
+  renderContent();
   createTabs();
   renderProducts();
   renderCmsProducts();
@@ -609,6 +700,7 @@ settingsForm.addEventListener("submit", (event) => {
   store.settings = {
     teamName: formData.get("teamName").trim() || defaultStore.settings.teamName,
     teamMark: formData.get("teamMark").trim().toUpperCase() || "PY",
+    teamMarkImage: formData.get("teamMarkImage").trim(),
     contactEmail:
       formData.get("contactEmail").trim() || defaultStore.settings.contactEmail,
     sheetUrl: formData.get("sheetUrl").trim()
@@ -616,6 +708,42 @@ settingsForm.addEventListener("submit", (event) => {
   saveStore("Site settings saved.");
   renderAll();
   loadSheetProducts({ showStatus: true });
+});
+
+contentForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(contentForm);
+
+  store.content = {
+    titleSuffix: formData.get("titleSuffix").trim() || defaultStore.content.titleSuffix,
+    brandSubtitle: formData.get("brandSubtitle").trim() || defaultStore.content.brandSubtitle,
+    navShop: formData.get("navShop").trim() || defaultStore.content.navShop,
+    navSpirit: formData.get("navSpirit").trim() || defaultStore.content.navSpirit,
+    navInfo: formData.get("navInfo").trim() || defaultStore.content.navInfo,
+    heroEyebrow: formData.get("heroEyebrow").trim(),
+    heroCopy: formData.get("heroCopy").trim(),
+    heroButton: formData.get("heroButton").trim(),
+    heroImage: formData.get("heroImage").trim(),
+    shopEyebrow: formData.get("shopEyebrow").trim(),
+    shopTitle: formData.get("shopTitle").trim(),
+    searchLabel: formData.get("searchLabel").trim(),
+    searchPlaceholder: formData.get("searchPlaceholder").trim(),
+    clearSearch: formData.get("clearSearch").trim(),
+    emptyState: formData.get("emptyState").trim(),
+    spiritEyebrow: formData.get("spiritEyebrow").trim(),
+    spiritTitle: formData.get("spiritTitle").trim(),
+    spiritCopy: formData.get("spiritCopy").trim(),
+    infoTitle: formData.get("infoTitle").trim(),
+    infoOneTitle: formData.get("infoOneTitle").trim(),
+    infoOneCopy: formData.get("infoOneCopy").trim(),
+    infoTwoTitle: formData.get("infoTwoTitle").trim(),
+    infoTwoCopy: formData.get("infoTwoCopy").trim(),
+    infoThreeTitle: formData.get("infoThreeTitle").trim(),
+    infoThreeCopy: formData.get("infoThreeCopy").trim(),
+    footerQuestion: formData.get("footerQuestion").trim()
+  };
+  saveStore("Page content saved.");
+  renderAll();
 });
 
 productForm.addEventListener("submit", (event) => {
