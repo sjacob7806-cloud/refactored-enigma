@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Piranhas Swim Team YEPP Shop</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Piranhas Swim Team YEPP home">
+          <span class="brand-mark">PY</span>
+          <span>
+            <strong>Piranhas Swim Team YEPP</strong>
+            <small>Team Shop</small>
+          </span>
+        </a>
+        <a href="#shop">Shop</a>
+        <a href="#spirit">Spirit Wear</a>
+        <a href="#faq">Info</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <p class="eyebrow">Official swim team merchandise</p>
+          <h1 id="hero-title">Piranhas Swim Team YEPP Shop</h1>
+          <p>
+            Race-day essentials, deck gear, and supporter apparel for swimmers,
+            families, and coaches.
+          </p>
+          <a class="primary-action" href="#shop">Browse products</a>
+        </div>
+        <div class="hero-board" aria-label="Featured team merchandise preview">
+          <div class="lane"></div>
+          <div class="mockup mockup-shirt">
+            <span>PIRANHAS</span>
+          </div>
+          <div class="mockup mockup-cap">
+            <span>PY</span>
+          </div>
+          <div class="mockup mockup-bottle">
+            <span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="shop-section" id="shop" aria-labelledby="shop-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Shop the collection</p>
+            <h2 id="shop-title">Merchandise</h2>
+          </div>
+          <div class="search-wrap">
+            <label for="product-search">Search products</label>
+            <input
+              id="product-search"
+              type="search"
+              placeholder="Search hoodies, caps, towels..."
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <div
+          class="category-tabs"
+          role="tablist"
+          aria-label="Product categories"
+          id="category-tabs"
+        ></div>
+
+        <div class="results-bar">
+          <p id="result-count"></p>
+          <button class="ghost-button" id="clear-search" type="button">
+            Clear search
+          </button>
+        </div>
+
+        <div class="product-grid" id="product-grid" aria-live="polite"></div>
+        <p class="empty-state" id="empty-state" hidden>
+          No products match that search. Try another category or keyword.
+        </p>
+      </section>
+
+      <section class="spirit-band" id="spirit" aria-labelledby="spirit-title">
+        <div>
+          <p class="eyebrow">Built for meet days</p>
+          <h2 id="spirit-title">Make the team easy to spot on deck.</h2>
+        </div>
+        <p>
+          Use this starter shop as your public merchandise hub. Swap the sample
+          purchase links for your vendor, booster store, or custom order forms.
+        </p>
+      </section>
+
+      <section class="info-section" id="faq" aria-labelledby="info-title">
+        <h2 id="info-title">Ordering Info</h2>
+        <div class="info-grid">
+          <article>
+            <h3>External checkout</h3>
+            <p>
+              Each product card opens a purchase page in a new tab, so families
+              can buy through your preferred vendor.
+            </p>
+          </article>
+          <article>
+            <h3>Team customization</h3>
+            <p>
+              Update the product names, prices, colors, and links in
+              <code>script.js</code>.
+            </p>
+          </article>
+          <article>
+            <h3>Category browsing</h3>
+            <p>
+              Tabs help shoppers jump between apparel, swim gear, accessories,
+              and fan favorites.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Piranhas Swim Team YEPP Shop</p>
+      <p>Questions? Contact piranhas-merch@example.com</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
